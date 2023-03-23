@@ -1,0 +1,31 @@
+{
+  "name": "outer-mint-sdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsdx build",
+    "start": "tsdx watch",
+    "type": "npx typechain --target ethers-v5 --out-dir typechain-types './abi/*.json'",
+    "test": "tsdx test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fun-topia/outer-mint-sdk.git"
+  },
+  "author": "CRYSTAL LABS",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fun-topia/outer-mint-sdk/issues"
+  },
+  "homepage": "https://github.com/fun-topia/outer-mint-sdk#readme",
+  "dependencies": {
+    "@typechain/ethers-v5": "^10.2.0",
+    "@walletconnect/web3-provider": "^1.8.0",
+    "ethers": "^5.6.1",
+    "typechain": "^8.1.1"
+  },
+  "devDependencies": {
+    "tsdx": "^0.14.1"
+  }
+}

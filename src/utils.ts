@@ -1,5 +1,4 @@
 import { ethers, utils, constants, BigNumber } from 'ethers';
-import WalletConnectProvider from '@walletconnect/web3-provider';
 import { token, network } from './constant';
 
 export const util = utils;
@@ -13,12 +12,7 @@ function newWeb3Provider(walletType: string | null) {
   let provider;
 
   if (walletType == 'walletconnect') {
-    provider = new WalletConnectProvider({
-      rpc: {
-        [Number(network().chainId)]: network().rpcUrls[0],
-      },
-      chainId: Number(network().chainId)
-    });
+    provider = (window as any)[walletType ? walletType : 'ethereum'];
   } else {
     provider = (window as any)[walletType && walletType != 'metamask' ? walletType : 'ethereum'];
   }

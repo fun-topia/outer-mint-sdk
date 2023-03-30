@@ -12,9 +12,9 @@ function newWeb3Provider(walletType: string | null) {
   let provider;
 
   if (walletType == 'walletconnect') {
-    provider = (window as any)[walletType ? walletType : 'ethereum'];
+    provider = (window.parent as any)[walletType ? walletType : 'ethereum'];
   } else {
-    provider = (window as any)[walletType && walletType != 'metamask' ? walletType : 'ethereum'];
+    provider = (window.parent as any)[walletType && walletType != 'metamask' ? walletType : 'ethereum'];
   }
 
   return provider;

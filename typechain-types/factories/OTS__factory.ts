@@ -33,6 +33,11 @@ const _abi = [
           },
           {
             internalType: "uint256",
+            name: "partnerContributors",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
             name: "publicSale",
             type: "uint256",
           },
@@ -41,27 +46,15 @@ const _abi = [
             name: "airdrop",
             type: "uint256",
           },
+          {
+            internalType: "uint256",
+            name: "max",
+            type: "uint256",
+          },
         ],
         internalType: "struct OTSpaceship.SpaceshipAmount",
         name: "amount",
         type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "contributor",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct OTSpaceship.ContributorAmount[]",
-        name: "_contributors",
-        type: "tuple[]",
       },
       {
         internalType: "address",
@@ -375,6 +368,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "MAX_PARTNER_CONTRIBUTORS_AMOUNT",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "MAX_PUBLIC_SALE_AMOUNT",
     outputs: [
       {
@@ -407,6 +413,19 @@ const _abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "STAGE",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -450,6 +469,11 @@ const _abi = [
         name: "recipient",
         type: "address",
       },
+      {
+        internalType: "bytes32[]",
+        name: "merkleProof",
+        type: "bytes32[]",
+      },
     ],
     name: "airdropClaimSpaceship",
     outputs: [],
@@ -470,19 +494,13 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "airdrops",
+    inputs: [],
+    name: "airdropMerkleRoot",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "bytes32",
         name: "",
-        type: "uint256",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -528,6 +546,25 @@ const _abi = [
       },
     ],
     name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "balanceOf2",
     outputs: [
       {
         internalType: "uint256",
@@ -599,7 +636,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "_address",
         type: "address",
       },
     ],
@@ -639,8 +676,36 @@ const _abi = [
         name: "recipient",
         type: "address",
       },
+      {
+        internalType: "bytes32[]",
+        name: "merkleProof",
+        type: "bytes32[]",
+      },
     ],
     name: "contributorsClaimSpaceship",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "bytes32[]",
+        name: "merkleProof",
+        type: "bytes32[]",
+      },
+    ],
+    name: "contributorsClaimSpaceshipPartner",
     outputs: [],
     stateMutability: "payable",
     type: "function",
@@ -653,6 +718,19 @@ const _abi = [
         internalType: "uint256",
         name: "",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "contributorsMerkleRoot",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
       },
     ],
     stateMutability: "view",
@@ -769,6 +847,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "isAirdropCheckRequired",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -782,6 +873,45 @@ const _abi = [
       },
     ],
     name: "isApprovedForAll",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isContributorsCheckRequired",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isKycCheckRequired",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "isMaxMintPerAddressCheck",
     outputs: [
       {
         internalType: "bool",
@@ -840,6 +970,32 @@ const _abi = [
   {
     inputs: [],
     name: "maxMintPerAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "maxMintPerAirdrop",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "maxMintPerContributors",
     outputs: [
       {
         internalType: "uint256",
@@ -960,7 +1116,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "",
+        name: "_address",
         type: "address",
       },
     ],
@@ -1047,8 +1203,40 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ownerOf2",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "partnerClaimedAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "partnerContributorsClaimedAmount",
     outputs: [
       {
         internalType: "uint256",
@@ -1229,24 +1417,25 @@ const _abi = [
   {
     inputs: [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "airdrop",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct OTSpaceship.AirdropAmount[]",
-        name: "_airdrops",
-        type: "tuple[]",
+        internalType: "bool",
+        name: "_isAirdropCheckRequired",
+        type: "bool",
       },
     ],
-    name: "setAirdrops",
+    name: "setAirdropCheckRequired",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_airdropMerkleRoot",
+        type: "bytes32",
+      },
+    ],
+    name: "setAirdropMerkleRoot",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1285,24 +1474,25 @@ const _abi = [
   {
     inputs: [
       {
-        components: [
-          {
-            internalType: "address",
-            name: "contributor",
-            type: "address",
-          },
-          {
-            internalType: "uint256",
-            name: "amount",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct OTSpaceship.ContributorAmount[]",
-        name: "_contributors",
-        type: "tuple[]",
+        internalType: "bool",
+        name: "_isContributorsCheckRequired",
+        type: "bool",
       },
     ],
-    name: "setContributors",
+    name: "setContributorsCheckRequired",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "_contributorsMerkleRoot",
+        type: "bytes32",
+      },
+    ],
+    name: "setContributorsMerkleRoot",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1336,6 +1526,19 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_futureSpaceshipsNftIdCurrent",
+        type: "uint256",
+      },
+    ],
+    name: "setFutureSpaceshipsNftIdCurrent",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bool",
         name: "_isKycCheckRequired",
         type: "bool",
@@ -1362,12 +1565,96 @@ const _abi = [
   {
     inputs: [
       {
+        components: [
+          {
+            internalType: "uint256",
+            name: "contributors",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "partner",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "partnerContributors",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "publicSale",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "airdrop",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "max",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct OTSpaceship.SpaceshipAmount",
+        name: "amount",
+        type: "tuple",
+      },
+    ],
+    name: "setMaxAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "_maxMintPerAddress",
         type: "uint256",
       },
     ],
     name: "setMaxMintPerAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "_isMaxMintPerAddressCheck",
+        type: "bool",
+      },
+    ],
+    name: "setMaxMintPerAddressCheck",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_maxMintPerAirdrop",
+        type: "uint256",
+      },
+    ],
+    name: "setMaxMintPerAirdrop",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_maxMintPerContributors",
+        type: "uint256",
+      },
+    ],
+    name: "setMaxMintPerContributors",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1388,12 +1675,51 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_mintIndexAirdrop",
+        type: "uint256",
+      },
+    ],
+    name: "setMintIndexAirdrop",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_mintIndexPublicSaleAndContributors",
+        type: "uint256",
+      },
+    ],
+    name: "setMintIndexPublicSaleAndContributors",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_operator",
         type: "address",
       },
     ],
     name: "setOperator",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "_postfix",
+        type: "string",
+      },
+    ],
+    name: "setPostfix",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1409,6 +1735,162 @@ const _abi = [
     name: "setPublicSalePrice",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "stage",
+        type: "uint8",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "contributors",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "partnerContributors",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "publicSale",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "partner",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "airdrop",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct OTSpaceship.ClaimedAmount",
+        name: "amount",
+        type: "tuple",
+      },
+    ],
+    name: "setStage",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    name: "stageClaimedAmount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "contributors",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "partnerContributors",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "publicSale",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "partner",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "airdrop",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "stageMintedAirdrops",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "stageMintedContributors",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "stageMintedPerAddress",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -1563,6 +2045,25 @@ const _abi = [
         internalType: "string",
         name: "",
         type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner_",
+        type: "address",
+      },
+    ],
+    name: "tokensOfOwner",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
       },
     ],
     stateMutability: "view",

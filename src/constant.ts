@@ -6,7 +6,7 @@ export function token(env?: string) {
     }
   } else {
     return {
-      OTS: '0xCA766351898B83e76550725edEc508CE292cd9CD',
+      OTS: '0x349725f5f6bC9550625f1ceA09be9359b811580B',
     };
   }
 };

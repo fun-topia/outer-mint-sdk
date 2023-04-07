@@ -32,11 +32,15 @@ export declare namespace OTSpaceship {
   export type SpaceshipAmountStruct = {
     contributors: PromiseOrValue<BigNumberish>;
     partner: PromiseOrValue<BigNumberish>;
+    partnerContributors: PromiseOrValue<BigNumberish>;
     publicSale: PromiseOrValue<BigNumberish>;
     airdrop: PromiseOrValue<BigNumberish>;
+    max: PromiseOrValue<BigNumberish>;
   };
 
   export type SpaceshipAmountStructOutput = [
+    BigNumber,
+    BigNumber,
     BigNumber,
     BigNumber,
     BigNumber,
@@ -44,28 +48,32 @@ export declare namespace OTSpaceship {
   ] & {
     contributors: BigNumber;
     partner: BigNumber;
+    partnerContributors: BigNumber;
     publicSale: BigNumber;
     airdrop: BigNumber;
+    max: BigNumber;
   };
 
-  export type ContributorAmountStruct = {
-    contributor: PromiseOrValue<string>;
-    amount: PromiseOrValue<BigNumberish>;
+  export type ClaimedAmountStruct = {
+    contributors: PromiseOrValue<BigNumberish>;
+    partnerContributors: PromiseOrValue<BigNumberish>;
+    publicSale: PromiseOrValue<BigNumberish>;
+    partner: PromiseOrValue<BigNumberish>;
+    airdrop: PromiseOrValue<BigNumberish>;
   };
 
-  export type ContributorAmountStructOutput = [string, BigNumber] & {
-    contributor: string;
-    amount: BigNumber;
-  };
-
-  export type AirdropAmountStruct = {
-    airdrop: PromiseOrValue<string>;
-    amount: PromiseOrValue<BigNumberish>;
-  };
-
-  export type AirdropAmountStructOutput = [string, BigNumber] & {
-    airdrop: string;
-    amount: BigNumber;
+  export type ClaimedAmountStructOutput = [
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & {
+    contributors: BigNumber;
+    partnerContributors: BigNumber;
+    publicSale: BigNumber;
+    partner: BigNumber;
+    airdrop: BigNumber;
   };
 }
 
@@ -74,25 +82,30 @@ export interface OTSInterface extends utils.Interface {
     "MAX_AIRDROP_AMOUNT()": FunctionFragment;
     "MAX_MINT_PER_BLOCK()": FunctionFragment;
     "MAX_PARTNER_AMOUNT()": FunctionFragment;
+    "MAX_PARTNER_CONTRIBUTORS_AMOUNT()": FunctionFragment;
     "MAX_PUBLIC_SALE_AMOUNT()": FunctionFragment;
     "MAX_RESERVED_CONTRIBUTORS_AMOUNT()": FunctionFragment;
     "MAX_SPACESHIPS()": FunctionFragment;
+    "STAGE()": FunctionFragment;
     "adminClaimStarted()": FunctionFragment;
     "airdropClaimActive()": FunctionFragment;
-    "airdropClaimSpaceship(uint256,address)": FunctionFragment;
+    "airdropClaimSpaceship(uint256,address,bytes32[])": FunctionFragment;
     "airdropClaimedAmount()": FunctionFragment;
-    "airdrops(address)": FunctionFragment;
+    "airdropMerkleRoot()": FunctionFragment;
     "alphaOffset()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "balanceOf2(address)": FunctionFragment;
     "betaOffset()": FunctionFragment;
     "claimUnclaimedAndUnsoldSpaceships(address)": FunctionFragment;
     "claimUnclaimedAndUnsoldSpaceshipsWithAmount(address,uint256)": FunctionFragment;
     "claimableActive()": FunctionFragment;
     "contributors(address)": FunctionFragment;
     "contributorsClaimActive()": FunctionFragment;
-    "contributorsClaimSpaceship(uint256,address)": FunctionFragment;
+    "contributorsClaimSpaceship(uint256,address,bytes32[])": FunctionFragment;
+    "contributorsClaimSpaceshipPartner(uint256,address,bytes32[])": FunctionFragment;
     "contributorsClaimedAmount()": FunctionFragment;
+    "contributorsMerkleRoot()": FunctionFragment;
     "contributorsPrice()": FunctionFragment;
     "currentNumSpaceshipsMintedPublicSale()": FunctionFragment;
     "fee()": FunctionFragment;
@@ -101,11 +114,17 @@ export interface OTSInterface extends utils.Interface {
     "getApproved(uint256)": FunctionFragment;
     "getMintPrice()": FunctionFragment;
     "getMintPriceContributor()": FunctionFragment;
+    "isAirdropCheckRequired()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
+    "isContributorsCheckRequired()": FunctionFragment;
+    "isKycCheckRequired()": FunctionFragment;
+    "isMaxMintPerAddressCheck()": FunctionFragment;
     "isRandomRequestForPublicSaleAndContributors(bytes32)": FunctionFragment;
     "keyHash()": FunctionFragment;
     "kycMerkleRoot()": FunctionFragment;
     "maxMintPerAddress()": FunctionFragment;
+    "maxMintPerAirdrop()": FunctionFragment;
+    "maxMintPerContributors()": FunctionFragment;
     "maxMintPerTx()": FunctionFragment;
     "mintFutureSpaceships(address)": FunctionFragment;
     "mintFutureSpaceshipsWithAmount(address,uint256)": FunctionFragment;
@@ -119,7 +138,9 @@ export interface OTSInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "ownerClaimRandomnessRequested()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "ownerOf2(uint256)": FunctionFragment;
     "partnerClaimedAmount()": FunctionFragment;
+    "partnerContributorsClaimedAmount()": FunctionFragment;
     "publicSaleActive()": FunctionFragment;
     "publicSaleAndContributorsOffset()": FunctionFragment;
     "publicSaleAndContributorsRandomnessRequested()": FunctionFragment;
@@ -131,18 +152,33 @@ export interface OTSInterface extends utils.Interface {
     "requestRandomnessForPublicSaleAndContributors()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
-    "setAirdrops((address,uint256)[])": FunctionFragment;
+    "setAirdropCheckRequired(bool)": FunctionFragment;
+    "setAirdropMerkleRoot(bytes32)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
-    "setContributors((address,uint256)[])": FunctionFragment;
+    "setContributorsCheckRequired(bool)": FunctionFragment;
+    "setContributorsMerkleRoot(bytes32)": FunctionFragment;
     "setContributorsPrice(uint256)": FunctionFragment;
     "setFutureMinter(address)": FunctionFragment;
+    "setFutureSpaceshipsNftIdCurrent(uint256)": FunctionFragment;
     "setKycCheckRequired(bool)": FunctionFragment;
     "setKycMerkleRoot(bytes32)": FunctionFragment;
+    "setMaxAmount((uint256,uint256,uint256,uint256,uint256,uint256))": FunctionFragment;
     "setMaxMintPerAddress(uint256)": FunctionFragment;
+    "setMaxMintPerAddressCheck(bool)": FunctionFragment;
+    "setMaxMintPerAirdrop(uint256)": FunctionFragment;
+    "setMaxMintPerContributors(uint256)": FunctionFragment;
     "setMaxMintPerTx(uint256)": FunctionFragment;
+    "setMintIndexAirdrop(uint256)": FunctionFragment;
+    "setMintIndexPublicSaleAndContributors(uint256)": FunctionFragment;
     "setOperator(address)": FunctionFragment;
+    "setPostfix(string)": FunctionFragment;
     "setPublicSalePrice(uint256)": FunctionFragment;
+    "setStage(uint8,(uint256,uint256,uint256,uint256,uint256))": FunctionFragment;
+    "stageClaimedAmount(uint8)": FunctionFragment;
+    "stageMintedAirdrops(uint8,address)": FunctionFragment;
+    "stageMintedContributors(uint8,address)": FunctionFragment;
+    "stageMintedPerAddress(uint8,address)": FunctionFragment;
     "startAirdropClaimPeriod()": FunctionFragment;
     "startContributorsClaimPeriod()": FunctionFragment;
     "startPublicSale(uint256,uint256,uint256,bool)": FunctionFragment;
@@ -154,6 +190,7 @@ export interface OTSInterface extends utils.Interface {
     "tokenByIndex(uint256)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
+    "tokensOfOwner(address)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -165,17 +202,20 @@ export interface OTSInterface extends utils.Interface {
       | "MAX_AIRDROP_AMOUNT"
       | "MAX_MINT_PER_BLOCK"
       | "MAX_PARTNER_AMOUNT"
+      | "MAX_PARTNER_CONTRIBUTORS_AMOUNT"
       | "MAX_PUBLIC_SALE_AMOUNT"
       | "MAX_RESERVED_CONTRIBUTORS_AMOUNT"
       | "MAX_SPACESHIPS"
+      | "STAGE"
       | "adminClaimStarted"
       | "airdropClaimActive"
       | "airdropClaimSpaceship"
       | "airdropClaimedAmount"
-      | "airdrops"
+      | "airdropMerkleRoot"
       | "alphaOffset"
       | "approve"
       | "balanceOf"
+      | "balanceOf2"
       | "betaOffset"
       | "claimUnclaimedAndUnsoldSpaceships"
       | "claimUnclaimedAndUnsoldSpaceshipsWithAmount"
@@ -183,7 +223,9 @@ export interface OTSInterface extends utils.Interface {
       | "contributors"
       | "contributorsClaimActive"
       | "contributorsClaimSpaceship"
+      | "contributorsClaimSpaceshipPartner"
       | "contributorsClaimedAmount"
+      | "contributorsMerkleRoot"
       | "contributorsPrice"
       | "currentNumSpaceshipsMintedPublicSale"
       | "fee"
@@ -192,11 +234,17 @@ export interface OTSInterface extends utils.Interface {
       | "getApproved"
       | "getMintPrice"
       | "getMintPriceContributor"
+      | "isAirdropCheckRequired"
       | "isApprovedForAll"
+      | "isContributorsCheckRequired"
+      | "isKycCheckRequired"
+      | "isMaxMintPerAddressCheck"
       | "isRandomRequestForPublicSaleAndContributors"
       | "keyHash"
       | "kycMerkleRoot"
       | "maxMintPerAddress"
+      | "maxMintPerAirdrop"
+      | "maxMintPerContributors"
       | "maxMintPerTx"
       | "mintFutureSpaceships"
       | "mintFutureSpaceshipsWithAmount"
@@ -210,7 +258,9 @@ export interface OTSInterface extends utils.Interface {
       | "owner"
       | "ownerClaimRandomnessRequested"
       | "ownerOf"
+      | "ownerOf2"
       | "partnerClaimedAmount"
+      | "partnerContributorsClaimedAmount"
       | "publicSaleActive"
       | "publicSaleAndContributorsOffset"
       | "publicSaleAndContributorsRandomnessRequested"
@@ -222,18 +272,33 @@ export interface OTSInterface extends utils.Interface {
       | "requestRandomnessForPublicSaleAndContributors"
       | "safeTransferFrom(address,address,uint256)"
       | "safeTransferFrom(address,address,uint256,bytes)"
-      | "setAirdrops"
+      | "setAirdropCheckRequired"
+      | "setAirdropMerkleRoot"
       | "setApprovalForAll"
       | "setBaseURI"
-      | "setContributors"
+      | "setContributorsCheckRequired"
+      | "setContributorsMerkleRoot"
       | "setContributorsPrice"
       | "setFutureMinter"
+      | "setFutureSpaceshipsNftIdCurrent"
       | "setKycCheckRequired"
       | "setKycMerkleRoot"
+      | "setMaxAmount"
       | "setMaxMintPerAddress"
+      | "setMaxMintPerAddressCheck"
+      | "setMaxMintPerAirdrop"
+      | "setMaxMintPerContributors"
       | "setMaxMintPerTx"
+      | "setMintIndexAirdrop"
+      | "setMintIndexPublicSaleAndContributors"
       | "setOperator"
+      | "setPostfix"
       | "setPublicSalePrice"
+      | "setStage"
+      | "stageClaimedAmount"
+      | "stageMintedAirdrops"
+      | "stageMintedContributors"
+      | "stageMintedPerAddress"
       | "startAirdropClaimPeriod"
       | "startContributorsClaimPeriod"
       | "startPublicSale"
@@ -245,6 +310,7 @@ export interface OTSInterface extends utils.Interface {
       | "tokenByIndex"
       | "tokenOfOwnerByIndex"
       | "tokenURI"
+      | "tokensOfOwner"
       | "totalSupply"
       | "transferFrom"
       | "transferOwnership"
@@ -264,6 +330,10 @@ export interface OTSInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "MAX_PARTNER_CONTRIBUTORS_AMOUNT",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "MAX_PUBLIC_SALE_AMOUNT",
     values?: undefined
   ): string;
@@ -275,6 +345,7 @@ export interface OTSInterface extends utils.Interface {
     functionFragment: "MAX_SPACESHIPS",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "STAGE", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "adminClaimStarted",
     values?: undefined
@@ -285,15 +356,19 @@ export interface OTSInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "airdropClaimSpaceship",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "airdropClaimedAmount",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "airdrops",
-    values: [PromiseOrValue<string>]
+    functionFragment: "airdropMerkleRoot",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "alphaOffset",
@@ -305,6 +380,10 @@ export interface OTSInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "balanceOf2",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -333,10 +412,26 @@ export interface OTSInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "contributorsClaimSpaceship",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>[]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "contributorsClaimSpaceshipPartner",
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BytesLike>[]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "contributorsClaimedAmount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "contributorsMerkleRoot",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -369,8 +464,24 @@ export interface OTSInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "isAirdropCheckRequired",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isContributorsCheckRequired",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isKycCheckRequired",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isMaxMintPerAddressCheck",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "isRandomRequestForPublicSaleAndContributors",
@@ -383,6 +494,14 @@ export interface OTSInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "maxMintPerAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "maxMintPerAirdrop",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "maxMintPerContributors",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -429,7 +548,15 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "ownerOf2",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "partnerClaimedAmount",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "partnerContributorsClaimedAmount",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -486,8 +613,12 @@ export interface OTSInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
-    functionFragment: "setAirdrops",
-    values: [OTSpaceship.AirdropAmountStruct[]]
+    functionFragment: "setAirdropCheckRequired",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAirdropMerkleRoot",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
@@ -498,8 +629,12 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setContributors",
-    values: [OTSpaceship.ContributorAmountStruct[]]
+    functionFragment: "setContributorsCheckRequired",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setContributorsMerkleRoot",
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "setContributorsPrice",
@@ -510,6 +645,10 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setFutureSpaceshipsNftIdCurrent",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setKycCheckRequired",
     values: [PromiseOrValue<boolean>]
   ): string;
@@ -518,7 +657,23 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMaxAmount",
+    values: [OTSpaceship.SpaceshipAmountStruct]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setMaxMintPerAddress",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMaxMintPerAddressCheck",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMaxMintPerAirdrop",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMaxMintPerContributors",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -526,12 +681,44 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "setMintIndexAirdrop",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setMintIndexPublicSaleAndContributors",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setOperator",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setPostfix",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setPublicSalePrice",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setStage",
+    values: [PromiseOrValue<BigNumberish>, OTSpaceship.ClaimedAmountStruct]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stageClaimedAmount",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stageMintedAirdrops",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stageMintedContributors",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "stageMintedPerAddress",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "startAirdropClaimPeriod",
@@ -580,6 +767,10 @@ export interface OTSInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "tokensOfOwner",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "totalSupply",
     values?: undefined
   ): string;
@@ -610,6 +801,10 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "MAX_PARTNER_CONTRIBUTORS_AMOUNT",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "MAX_PUBLIC_SALE_AMOUNT",
     data: BytesLike
   ): Result;
@@ -621,6 +816,7 @@ export interface OTSInterface extends utils.Interface {
     functionFragment: "MAX_SPACESHIPS",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "STAGE", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "adminClaimStarted",
     data: BytesLike
@@ -637,13 +833,17 @@ export interface OTSInterface extends utils.Interface {
     functionFragment: "airdropClaimedAmount",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "airdrops", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "airdropMerkleRoot",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "alphaOffset",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf2", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "betaOffset", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "claimUnclaimedAndUnsoldSpaceships",
@@ -670,7 +870,15 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "contributorsClaimSpaceshipPartner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "contributorsClaimedAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "contributorsMerkleRoot",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -703,7 +911,23 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "isAirdropCheckRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isContributorsCheckRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isKycCheckRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isMaxMintPerAddressCheck",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -717,6 +941,14 @@ export interface OTSInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "maxMintPerAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "maxMintPerAirdrop",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "maxMintPerContributors",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -759,8 +991,13 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ownerOf2", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "partnerClaimedAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "partnerContributorsClaimedAmount",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -808,7 +1045,11 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setAirdrops",
+    functionFragment: "setAirdropCheckRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setAirdropMerkleRoot",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -817,7 +1058,11 @@ export interface OTSInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setContributors",
+    functionFragment: "setContributorsCheckRequired",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setContributorsMerkleRoot",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -829,6 +1074,10 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setFutureSpaceshipsNftIdCurrent",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setKycCheckRequired",
     data: BytesLike
   ): Result;
@@ -837,7 +1086,23 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setMaxAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setMaxMintPerAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMaxMintPerAddressCheck",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMaxMintPerAirdrop",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setMaxMintPerContributors",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -845,11 +1110,37 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setOperator",
+    functionFragment: "setMintIndexAirdrop",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setMintIndexPublicSaleAndContributors",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setOperator",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setPostfix", data: BytesLike): Result;
+  decodeFunctionResult(
     functionFragment: "setPublicSalePrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setStage", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "stageClaimedAmount",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "stageMintedAirdrops",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "stageMintedContributors",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "stageMintedPerAddress",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -890,6 +1181,10 @@ export interface OTSInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokensOfOwner",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
@@ -1130,6 +1425,10 @@ export interface OTS extends BaseContract {
 
     MAX_PARTNER_AMOUNT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    MAX_PARTNER_CONTRIBUTORS_AMOUNT(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     MAX_PUBLIC_SALE_AMOUNT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     MAX_RESERVED_CONTRIBUTORS_AMOUNT(
@@ -1138,6 +1437,8 @@ export interface OTS extends BaseContract {
 
     MAX_SPACESHIPS(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    STAGE(overrides?: CallOverrides): Promise<[number]>;
+
     adminClaimStarted(overrides?: CallOverrides): Promise<[boolean]>;
 
     airdropClaimActive(overrides?: CallOverrides): Promise<[boolean]>;
@@ -1145,15 +1446,13 @@ export interface OTS extends BaseContract {
     airdropClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     airdropClaimedAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    airdrops(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    airdropMerkleRoot(overrides?: CallOverrides): Promise<[string]>;
 
     alphaOffset(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -1164,6 +1463,11 @@ export interface OTS extends BaseContract {
     ): Promise<ContractTransaction>;
 
     balanceOf(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    balanceOf2(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
@@ -1184,7 +1488,7 @@ export interface OTS extends BaseContract {
     claimableActive(overrides?: CallOverrides): Promise<[boolean]>;
 
     contributors(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -1193,10 +1497,20 @@ export interface OTS extends BaseContract {
     contributorsClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    contributorsClaimSpaceshipPartner(
+      amount: PromiseOrValue<BigNumberish>,
+      recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     contributorsClaimedAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    contributorsMerkleRoot(overrides?: CallOverrides): Promise<[string]>;
 
     contributorsPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -1221,11 +1535,19 @@ export interface OTS extends BaseContract {
 
     getMintPriceContributor(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    isAirdropCheckRequired(overrides?: CallOverrides): Promise<[boolean]>;
+
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    isContributorsCheckRequired(overrides?: CallOverrides): Promise<[boolean]>;
+
+    isKycCheckRequired(overrides?: CallOverrides): Promise<[boolean]>;
+
+    isMaxMintPerAddressCheck(overrides?: CallOverrides): Promise<[boolean]>;
 
     isRandomRequestForPublicSaleAndContributors(
       arg0: PromiseOrValue<BytesLike>,
@@ -1237,6 +1559,10 @@ export interface OTS extends BaseContract {
     kycMerkleRoot(overrides?: CallOverrides): Promise<[string]>;
 
     maxMintPerAddress(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    maxMintPerAirdrop(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    maxMintPerContributors(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     maxMintPerTx(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -1270,7 +1596,7 @@ export interface OTS extends BaseContract {
     ): Promise<ContractTransaction>;
 
     mintedPerAddress(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -1289,7 +1615,16 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    ownerOf2(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     partnerClaimedAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    partnerContributorsClaimedAmount(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     publicSaleActive(overrides?: CallOverrides): Promise<[boolean]>;
 
@@ -1338,8 +1673,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setAirdrops(
-      _airdrops: OTSpaceship.AirdropAmountStruct[],
+    setAirdropCheckRequired(
+      _isAirdropCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setAirdropMerkleRoot(
+      _airdropMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1354,8 +1694,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setContributors(
-      _contributors: OTSpaceship.ContributorAmountStruct[],
+    setContributorsCheckRequired(
+      _isContributorsCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setContributorsMerkleRoot(
+      _contributorsMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1369,6 +1714,11 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setFutureSpaceshipsNftIdCurrent(
+      _futureSpaceshipsNftIdCurrent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setKycCheckRequired(
       _isKycCheckRequired: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1379,8 +1729,28 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setMaxAmount(
+      amount: OTSpaceship.SpaceshipAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setMaxMintPerAddress(
       _maxMintPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setMaxMintPerAddressCheck(
+      _isMaxMintPerAddressCheck: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setMaxMintPerAirdrop(
+      _maxMintPerAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setMaxMintPerContributors(
+      _maxMintPerContributors: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1389,8 +1759,23 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setMintIndexAirdrop(
+      _mintIndexAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setMintIndexPublicSaleAndContributors(
+      _mintIndexPublicSaleAndContributors: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setOperator(
       _operator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setPostfix(
+      _postfix: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -1398,6 +1783,43 @@ export interface OTS extends BaseContract {
       _publicSalePrice: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    setStage(
+      stage: PromiseOrValue<BigNumberish>,
+      amount: OTSpaceship.ClaimedAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    stageClaimedAmount(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+        contributors: BigNumber;
+        partnerContributors: BigNumber;
+        publicSale: BigNumber;
+        partner: BigNumber;
+        airdrop: BigNumber;
+      }
+    >;
+
+    stageMintedAirdrops(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    stageMintedContributors(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    stageMintedPerAddress(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     startAirdropClaimPeriod(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1450,6 +1872,11 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    tokensOfOwner(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transferFrom(
@@ -1475,6 +1902,10 @@ export interface OTS extends BaseContract {
 
   MAX_PARTNER_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
+  MAX_PARTNER_CONTRIBUTORS_AMOUNT(
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   MAX_PUBLIC_SALE_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
   MAX_RESERVED_CONTRIBUTORS_AMOUNT(
@@ -1483,6 +1914,8 @@ export interface OTS extends BaseContract {
 
   MAX_SPACESHIPS(overrides?: CallOverrides): Promise<BigNumber>;
 
+  STAGE(overrides?: CallOverrides): Promise<number>;
+
   adminClaimStarted(overrides?: CallOverrides): Promise<boolean>;
 
   airdropClaimActive(overrides?: CallOverrides): Promise<boolean>;
@@ -1490,15 +1923,13 @@ export interface OTS extends BaseContract {
   airdropClaimSpaceship(
     amount: PromiseOrValue<BigNumberish>,
     recipient: PromiseOrValue<string>,
+    merkleProof: PromiseOrValue<BytesLike>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   airdropClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-  airdrops(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  airdropMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
   alphaOffset(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1509,6 +1940,11 @@ export interface OTS extends BaseContract {
   ): Promise<ContractTransaction>;
 
   balanceOf(
+    owner: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  balanceOf2(
     owner: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
@@ -1529,7 +1965,7 @@ export interface OTS extends BaseContract {
   claimableActive(overrides?: CallOverrides): Promise<boolean>;
 
   contributors(
-    arg0: PromiseOrValue<string>,
+    _address: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -1538,10 +1974,20 @@ export interface OTS extends BaseContract {
   contributorsClaimSpaceship(
     amount: PromiseOrValue<BigNumberish>,
     recipient: PromiseOrValue<string>,
+    merkleProof: PromiseOrValue<BytesLike>[],
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  contributorsClaimSpaceshipPartner(
+    amount: PromiseOrValue<BigNumberish>,
+    recipient: PromiseOrValue<string>,
+    merkleProof: PromiseOrValue<BytesLike>[],
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   contributorsClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  contributorsMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
   contributorsPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1564,11 +2010,19 @@ export interface OTS extends BaseContract {
 
   getMintPriceContributor(overrides?: CallOverrides): Promise<BigNumber>;
 
+  isAirdropCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
   isApprovedForAll(
     owner: PromiseOrValue<string>,
     operator: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  isContributorsCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
+  isKycCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
+  isMaxMintPerAddressCheck(overrides?: CallOverrides): Promise<boolean>;
 
   isRandomRequestForPublicSaleAndContributors(
     arg0: PromiseOrValue<BytesLike>,
@@ -1580,6 +2034,10 @@ export interface OTS extends BaseContract {
   kycMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
   maxMintPerAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+  maxMintPerAirdrop(overrides?: CallOverrides): Promise<BigNumber>;
+
+  maxMintPerContributors(overrides?: CallOverrides): Promise<BigNumber>;
 
   maxMintPerTx(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1613,7 +2071,7 @@ export interface OTS extends BaseContract {
   ): Promise<ContractTransaction>;
 
   mintedPerAddress(
-    arg0: PromiseOrValue<string>,
+    _address: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -1630,7 +2088,16 @@ export interface OTS extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  ownerOf2(
+    tokenId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   partnerClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+  partnerContributorsClaimedAmount(
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   publicSaleActive(overrides?: CallOverrides): Promise<boolean>;
 
@@ -1679,8 +2146,13 @@ export interface OTS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setAirdrops(
-    _airdrops: OTSpaceship.AirdropAmountStruct[],
+  setAirdropCheckRequired(
+    _isAirdropCheckRequired: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setAirdropMerkleRoot(
+    _airdropMerkleRoot: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1695,8 +2167,13 @@ export interface OTS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setContributors(
-    _contributors: OTSpaceship.ContributorAmountStruct[],
+  setContributorsCheckRequired(
+    _isContributorsCheckRequired: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setContributorsMerkleRoot(
+    _contributorsMerkleRoot: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1710,6 +2187,11 @@ export interface OTS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setFutureSpaceshipsNftIdCurrent(
+    _futureSpaceshipsNftIdCurrent: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setKycCheckRequired(
     _isKycCheckRequired: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1720,8 +2202,28 @@ export interface OTS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setMaxAmount(
+    amount: OTSpaceship.SpaceshipAmountStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setMaxMintPerAddress(
     _maxMintPerAddress: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setMaxMintPerAddressCheck(
+    _isMaxMintPerAddressCheck: PromiseOrValue<boolean>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setMaxMintPerAirdrop(
+    _maxMintPerAirdrop: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setMaxMintPerContributors(
+    _maxMintPerContributors: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1730,8 +2232,23 @@ export interface OTS extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setMintIndexAirdrop(
+    _mintIndexAirdrop: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setMintIndexPublicSaleAndContributors(
+    _mintIndexPublicSaleAndContributors: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setOperator(
     _operator: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setPostfix(
+    _postfix: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -1739,6 +2256,43 @@ export interface OTS extends BaseContract {
     _publicSalePrice: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  setStage(
+    stage: PromiseOrValue<BigNumberish>,
+    amount: OTSpaceship.ClaimedAmountStruct,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  stageClaimedAmount(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+      contributors: BigNumber;
+      partnerContributors: BigNumber;
+      publicSale: BigNumber;
+      partner: BigNumber;
+      airdrop: BigNumber;
+    }
+  >;
+
+  stageMintedAirdrops(
+    arg0: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  stageMintedContributors(
+    arg0: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  stageMintedPerAddress(
+    arg0: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   startAirdropClaimPeriod(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1791,6 +2345,11 @@ export interface OTS extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  tokensOfOwner(
+    owner_: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transferFrom(
@@ -1816,6 +2375,10 @@ export interface OTS extends BaseContract {
 
     MAX_PARTNER_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
+    MAX_PARTNER_CONTRIBUTORS_AMOUNT(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     MAX_PUBLIC_SALE_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
     MAX_RESERVED_CONTRIBUTORS_AMOUNT(
@@ -1824,6 +2387,8 @@ export interface OTS extends BaseContract {
 
     MAX_SPACESHIPS(overrides?: CallOverrides): Promise<BigNumber>;
 
+    STAGE(overrides?: CallOverrides): Promise<number>;
+
     adminClaimStarted(overrides?: CallOverrides): Promise<boolean>;
 
     airdropClaimActive(overrides?: CallOverrides): Promise<boolean>;
@@ -1831,15 +2396,13 @@ export interface OTS extends BaseContract {
     airdropClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
     airdropClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    airdrops(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    airdropMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
     alphaOffset(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1850,6 +2413,11 @@ export interface OTS extends BaseContract {
     ): Promise<void>;
 
     balanceOf(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    balanceOf2(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -1870,7 +2438,7 @@ export interface OTS extends BaseContract {
     claimableActive(overrides?: CallOverrides): Promise<boolean>;
 
     contributors(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1879,10 +2447,20 @@ export interface OTS extends BaseContract {
     contributorsClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    contributorsClaimSpaceshipPartner(
+      amount: PromiseOrValue<BigNumberish>,
+      recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
     contributorsClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    contributorsMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
     contributorsPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1905,11 +2483,19 @@ export interface OTS extends BaseContract {
 
     getMintPriceContributor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    isAirdropCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    isContributorsCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
+    isKycCheckRequired(overrides?: CallOverrides): Promise<boolean>;
+
+    isMaxMintPerAddressCheck(overrides?: CallOverrides): Promise<boolean>;
 
     isRandomRequestForPublicSaleAndContributors(
       arg0: PromiseOrValue<BytesLike>,
@@ -1921,6 +2507,10 @@ export interface OTS extends BaseContract {
     kycMerkleRoot(overrides?: CallOverrides): Promise<string>;
 
     maxMintPerAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxMintPerAirdrop(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxMintPerContributors(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxMintPerTx(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1954,7 +2544,7 @@ export interface OTS extends BaseContract {
     ): Promise<void>;
 
     mintedPerAddress(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1971,7 +2561,16 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    ownerOf2(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     partnerClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    partnerContributorsClaimedAmount(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     publicSaleActive(overrides?: CallOverrides): Promise<boolean>;
 
@@ -2016,8 +2615,13 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setAirdrops(
-      _airdrops: OTSpaceship.AirdropAmountStruct[],
+    setAirdropCheckRequired(
+      _isAirdropCheckRequired: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAirdropMerkleRoot(
+      _airdropMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2032,8 +2636,13 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setContributors(
-      _contributors: OTSpaceship.ContributorAmountStruct[],
+    setContributorsCheckRequired(
+      _isContributorsCheckRequired: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setContributorsMerkleRoot(
+      _contributorsMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2047,6 +2656,11 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setFutureSpaceshipsNftIdCurrent(
+      _futureSpaceshipsNftIdCurrent: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setKycCheckRequired(
       _isKycCheckRequired: PromiseOrValue<boolean>,
       overrides?: CallOverrides
@@ -2057,8 +2671,28 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setMaxAmount(
+      amount: OTSpaceship.SpaceshipAmountStruct,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setMaxMintPerAddress(
       _maxMintPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMaxMintPerAddressCheck(
+      _isMaxMintPerAddressCheck: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMaxMintPerAirdrop(
+      _maxMintPerAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMaxMintPerContributors(
+      _maxMintPerContributors: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2067,8 +2701,23 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setMintIndexAirdrop(
+      _mintIndexAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setMintIndexPublicSaleAndContributors(
+      _mintIndexPublicSaleAndContributors: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setOperator(
       _operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setPostfix(
+      _postfix: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2076,6 +2725,43 @@ export interface OTS extends BaseContract {
       _publicSalePrice: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setStage(
+      stage: PromiseOrValue<BigNumberish>,
+      amount: OTSpaceship.ClaimedAmountStruct,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    stageClaimedAmount(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, BigNumber] & {
+        contributors: BigNumber;
+        partnerContributors: BigNumber;
+        publicSale: BigNumber;
+        partner: BigNumber;
+        airdrop: BigNumber;
+      }
+    >;
+
+    stageMintedAirdrops(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    stageMintedContributors(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    stageMintedPerAddress(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     startAirdropClaimPeriod(overrides?: CallOverrides): Promise<void>;
 
@@ -2117,6 +2803,11 @@ export interface OTS extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    tokensOfOwner(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2254,6 +2945,10 @@ export interface OTS extends BaseContract {
 
     MAX_PARTNER_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
+    MAX_PARTNER_CONTRIBUTORS_AMOUNT(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     MAX_PUBLIC_SALE_AMOUNT(overrides?: CallOverrides): Promise<BigNumber>;
 
     MAX_RESERVED_CONTRIBUTORS_AMOUNT(
@@ -2262,6 +2957,8 @@ export interface OTS extends BaseContract {
 
     MAX_SPACESHIPS(overrides?: CallOverrides): Promise<BigNumber>;
 
+    STAGE(overrides?: CallOverrides): Promise<BigNumber>;
+
     adminClaimStarted(overrides?: CallOverrides): Promise<BigNumber>;
 
     airdropClaimActive(overrides?: CallOverrides): Promise<BigNumber>;
@@ -2269,15 +2966,13 @@ export interface OTS extends BaseContract {
     airdropClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     airdropClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    airdrops(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    airdropMerkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     alphaOffset(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2288,6 +2983,11 @@ export interface OTS extends BaseContract {
     ): Promise<BigNumber>;
 
     balanceOf(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    balanceOf2(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -2308,7 +3008,7 @@ export interface OTS extends BaseContract {
     claimableActive(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributors(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -2317,10 +3017,20 @@ export interface OTS extends BaseContract {
     contributorsClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    contributorsClaimSpaceshipPartner(
+      amount: PromiseOrValue<BigNumberish>,
+      recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     contributorsClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    contributorsMerkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     contributorsPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2343,11 +3053,19 @@ export interface OTS extends BaseContract {
 
     getMintPriceContributor(overrides?: CallOverrides): Promise<BigNumber>;
 
+    isAirdropCheckRequired(overrides?: CallOverrides): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    isContributorsCheckRequired(overrides?: CallOverrides): Promise<BigNumber>;
+
+    isKycCheckRequired(overrides?: CallOverrides): Promise<BigNumber>;
+
+    isMaxMintPerAddressCheck(overrides?: CallOverrides): Promise<BigNumber>;
 
     isRandomRequestForPublicSaleAndContributors(
       arg0: PromiseOrValue<BytesLike>,
@@ -2359,6 +3077,10 @@ export interface OTS extends BaseContract {
     kycMerkleRoot(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxMintPerAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxMintPerAirdrop(overrides?: CallOverrides): Promise<BigNumber>;
+
+    maxMintPerContributors(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxMintPerTx(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2392,7 +3114,7 @@ export interface OTS extends BaseContract {
     ): Promise<BigNumber>;
 
     mintedPerAddress(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -2411,7 +3133,16 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    ownerOf2(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     partnerClaimedAmount(overrides?: CallOverrides): Promise<BigNumber>;
+
+    partnerContributorsClaimedAmount(
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     publicSaleActive(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2460,8 +3191,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setAirdrops(
-      _airdrops: OTSpaceship.AirdropAmountStruct[],
+    setAirdropCheckRequired(
+      _isAirdropCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setAirdropMerkleRoot(
+      _airdropMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -2476,8 +3212,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setContributors(
-      _contributors: OTSpaceship.ContributorAmountStruct[],
+    setContributorsCheckRequired(
+      _isContributorsCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setContributorsMerkleRoot(
+      _contributorsMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -2491,6 +3232,11 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setFutureSpaceshipsNftIdCurrent(
+      _futureSpaceshipsNftIdCurrent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setKycCheckRequired(
       _isKycCheckRequired: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2501,8 +3247,28 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setMaxAmount(
+      amount: OTSpaceship.SpaceshipAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setMaxMintPerAddress(
       _maxMintPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setMaxMintPerAddressCheck(
+      _isMaxMintPerAddressCheck: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setMaxMintPerAirdrop(
+      _maxMintPerAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setMaxMintPerContributors(
+      _maxMintPerContributors: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -2511,14 +3277,58 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setMintIndexAirdrop(
+      _mintIndexAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setMintIndexPublicSaleAndContributors(
+      _mintIndexPublicSaleAndContributors: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setOperator(
       _operator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setPostfix(
+      _postfix: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setPublicSalePrice(
       _publicSalePrice: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setStage(
+      stage: PromiseOrValue<BigNumberish>,
+      amount: OTSpaceship.ClaimedAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    stageClaimedAmount(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    stageMintedAirdrops(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    stageMintedContributors(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    stageMintedPerAddress(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     startAirdropClaimPeriod(
@@ -2572,6 +3382,11 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    tokensOfOwner(
+      owner_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
@@ -2604,6 +3419,10 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    MAX_PARTNER_CONTRIBUTORS_AMOUNT(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     MAX_PUBLIC_SALE_AMOUNT(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2614,6 +3433,8 @@ export interface OTS extends BaseContract {
 
     MAX_SPACESHIPS(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    STAGE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     adminClaimStarted(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     airdropClaimActive(
@@ -2623,6 +3444,7 @@ export interface OTS extends BaseContract {
     airdropClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2630,10 +3452,7 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    airdrops(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    airdropMerkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     alphaOffset(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -2644,6 +3463,11 @@ export interface OTS extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     balanceOf(
+      owner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    balanceOf2(
       owner: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -2664,7 +3488,7 @@ export interface OTS extends BaseContract {
     claimableActive(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     contributors(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2675,10 +3499,22 @@ export interface OTS extends BaseContract {
     contributorsClaimSpaceship(
       amount: PromiseOrValue<BigNumberish>,
       recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    contributorsClaimSpaceshipPartner(
+      amount: PromiseOrValue<BigNumberish>,
+      recipient: PromiseOrValue<string>,
+      merkleProof: PromiseOrValue<BytesLike>[],
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     contributorsClaimedAmount(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    contributorsMerkleRoot(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2707,9 +3543,25 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    isAirdropCheckRequired(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     isApprovedForAll(
       owner: PromiseOrValue<string>,
       operator: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isContributorsCheckRequired(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isKycCheckRequired(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isMaxMintPerAddressCheck(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2723,6 +3575,12 @@ export interface OTS extends BaseContract {
     kycMerkleRoot(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     maxMintPerAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    maxMintPerAirdrop(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    maxMintPerContributors(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     maxMintPerTx(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -2756,7 +3614,7 @@ export interface OTS extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintedPerAddress(
-      arg0: PromiseOrValue<string>,
+      _address: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2775,7 +3633,16 @@ export interface OTS extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    ownerOf2(
+      tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     partnerClaimedAmount(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    partnerContributorsClaimedAmount(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2828,8 +3695,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setAirdrops(
-      _airdrops: OTSpaceship.AirdropAmountStruct[],
+    setAirdropCheckRequired(
+      _isAirdropCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAirdropMerkleRoot(
+      _airdropMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2844,8 +3716,13 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setContributors(
-      _contributors: OTSpaceship.ContributorAmountStruct[],
+    setContributorsCheckRequired(
+      _isContributorsCheckRequired: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setContributorsMerkleRoot(
+      _contributorsMerkleRoot: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2859,6 +3736,11 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setFutureSpaceshipsNftIdCurrent(
+      _futureSpaceshipsNftIdCurrent: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setKycCheckRequired(
       _isKycCheckRequired: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -2869,8 +3751,28 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setMaxAmount(
+      amount: OTSpaceship.SpaceshipAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setMaxMintPerAddress(
       _maxMintPerAddress: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMaxMintPerAddressCheck(
+      _isMaxMintPerAddressCheck: PromiseOrValue<boolean>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMaxMintPerAirdrop(
+      _maxMintPerAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMaxMintPerContributors(
+      _maxMintPerContributors: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -2879,14 +3781,58 @@ export interface OTS extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setMintIndexAirdrop(
+      _mintIndexAirdrop: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setMintIndexPublicSaleAndContributors(
+      _mintIndexPublicSaleAndContributors: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setOperator(
       _operator: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setPostfix(
+      _postfix: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setPublicSalePrice(
       _publicSalePrice: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setStage(
+      stage: PromiseOrValue<BigNumberish>,
+      amount: OTSpaceship.ClaimedAmountStruct,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    stageClaimedAmount(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    stageMintedAirdrops(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    stageMintedContributors(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    stageMintedPerAddress(
+      arg0: PromiseOrValue<BigNumberish>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     startAirdropClaimPeriod(
@@ -2937,6 +3883,11 @@ export interface OTS extends BaseContract {
 
     tokenURI(
       tokenId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    tokensOfOwner(
+      owner_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

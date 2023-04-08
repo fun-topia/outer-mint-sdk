@@ -6,7 +6,7 @@ export function token(env?: string) {
     }
   } else {
     return {
-      OTS: '0x11f1735D87ED6d7118C55db5A5a85c4ECbeD9ECa',
+      OTS: '0x9525804e33dEB5291C2EF2C1cf44f386d5Ba3eB4',
     };
   }
 };
@@ -15,15 +15,15 @@ export function network(env?: string) {
   const environment = env || process.env.NODE_ENV;
   if (environment === 'production') {
     return {
-      chainId: '0x38',
-      chainName: 'BSC-Mainnet',
-      rpcUrls: ['https://bsc-dataseed3.ninicoin.io/']
+      chainId: '0x1',
+      chainName: 'ETH-Mainnet',
+      rpcUrls: ['https://mainnet.infura.io/v3/bf8dec918d984e83b993411ee2ab6f00']
     };
   } else {
     return {
-      chainId: '0x61',
-      chainName: 'BSC-Testnet',
-      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/']
+      chainId: '0x5',
+      chainName: 'Goerli-Testnet',
+      rpcUrls: ['https://goerli.infura.io/v3/bf8dec918d984e83b993411ee2ab6f00']
     };
   }
 };

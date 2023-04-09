@@ -17,13 +17,13 @@ export function network(env?: string) {
     return {
       chainId: '0x1',
       chainName: 'ETH-Mainnet',
-      rpcUrls: ['https://mainnet.infura.io/v3/bf8dec918d984e83b993411ee2ab6f00']
+      rpcUrls: ['https://eth-mainnet.g.alchemy.com/v2/Z_xFFXUwd05vfeJOS74UETGJVEd2A65Y']
     };
   } else {
     return {
       chainId: '0x5',
       chainName: 'Goerli-Testnet',
-      rpcUrls: ['https://goerli.infura.io/v3/bf8dec918d984e83b993411ee2ab6f00']
+      rpcUrls: ['https://eth-goerli.g.alchemy.com/v2/dDCf0lfjfq1HeLlGAK3-u8r7hRhrJrEY']
     };
   }
 };

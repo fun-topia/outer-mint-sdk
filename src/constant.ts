@@ -17,7 +17,7 @@ export function network(env?: string) {
     return {
       chainId: '0x1',
       chainName: 'ETH-Mainnet',
-      rpcUrls: ['https://eth-mainnet.g.alchemy.com/v2/Z_xFFXUwd05vfeJOS74UETGJVEd2A65Y']
+      rpcUrls: ['https://web3.mytokenpocket.vip']
     };
   } else {
     return {

@@ -2,7 +2,7 @@ export function token(env?: string) {
   const environment = env || process.env.NODE_ENV;
   if (environment === 'production') {
     return {
-      OTS: '',
+      OTS: '0x13251cE31ac3330067C3acAf4Bb3339dfF765C76',
     }
   } else {
     return {

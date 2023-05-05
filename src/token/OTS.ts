@@ -20,11 +20,12 @@ export const otsInfo = {
     orderBy: string,
     orderDirection: string,
     owner?: string,
+    block?: string,
   ) => {
     const otsCountByOwnersQuery = `
-      query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String, $owner: String) {
+      query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String, $owner: String, $block: Int) {
         otsCountByOwners(
-          first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection,
+          first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, ${block ? `block: { number: $block },` : ``}
           where: {${owner ? `owner: $owner,` : ``}}
         ) {
           owner
@@ -44,6 +45,7 @@ export const otsInfo = {
         orderBy: orderBy,
         orderDirection: orderDirection,
         owner: owner,
+        block: block,
       },
     });
   },
@@ -53,11 +55,12 @@ export const otsInfo = {
     skip: number,
     orderBy: string,
     orderDirection: string,
+    block?: string,
   ) => {
     const otsCountsQuery = `
-      query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String) {
+      query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String, $block: Int) {
         otsCounts(
-          first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection
+          first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, ${block ? `block: { number: $block },` : ``}
         ) {
           total
           l4
@@ -74,6 +77,7 @@ export const otsInfo = {
         skip: skip,
         orderBy: orderBy,
         orderDirection: orderDirection,
+        block: block,
       },
     });
   },

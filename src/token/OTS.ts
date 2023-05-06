@@ -20,7 +20,7 @@ export const otsInfo = {
     orderBy: string,
     orderDirection: string,
     owner?: string,
-    block?: string,
+    block?: number,
   ) => {
     const otsCountByOwnersQuery = `
       query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String, $owner: String, $block: Int) {
@@ -55,7 +55,7 @@ export const otsInfo = {
     skip: number,
     orderBy: string,
     orderDirection: string,
-    block?: string,
+    block?: number,
   ) => {
     const otsCountsQuery = `
       query($first: Int, $skip: Int, $orderBy: BigInt, $orderDirection: String, $block: Int) {

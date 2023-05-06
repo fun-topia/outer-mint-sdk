@@ -5,7 +5,7 @@ import { rpcProvider } from '../utils';
 import { token } from '../constant';
 
 const client = new ApolloClient({
-  uri: 'https://api.thegraph.com/subgraphs/name/fun-topia//outer-spaceship',
+  uri: 'https://api.thegraph.com/subgraphs/name/fun-topia/outer-spaceship',
   cache: new InMemoryCache(),
 });
 

@@ -63,6 +63,7 @@ export const otsInfo = {
           first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, ${block ? `block: { number: $block },` : ``}
         ) {
           total
+          owner
           l4
           l5
           golden

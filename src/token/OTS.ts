@@ -63,6 +63,13 @@ export const otsInfo = {
           first: $first, skip: $skip, orderBy: $orderBy, orderDirection: $orderDirection, ${block ? `block: { number: $block },` : ``}
         ) {
           total
+          teamAmount
+          publicAmount
+          whitelistAmount
+          techAmount
+          multiAmount
+          mmAmount
+          userAmount
           owner
           l4
           l5

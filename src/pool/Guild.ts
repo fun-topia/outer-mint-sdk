@@ -43,8 +43,8 @@ export const otsInfo = {
         skip: skip,
         orderBy: orderBy,
         orderDirection: orderDirection,
-        block: block,
         inviter: inviter,
+        block: block,
       },
     });
   },

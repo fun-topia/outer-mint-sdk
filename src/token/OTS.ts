@@ -69,6 +69,9 @@ export const otsInfo = {
           techAmount
           multiAmount
           mmAmount
+          position1Amount
+          position2Amount
+          wggAmount
           userAmount
           owner
           l4

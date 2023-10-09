@@ -15,7 +15,7 @@ export function contract(env?: string) {
   const environment = env || process.env.NODE_ENV;
   if (environment === 'production') {
     return {
-      Guild: '0x8AfAf3D506d78836E7aC798fd777852B35df8F0F',
+      Guild: '0xd2629D07591877b4a0bd8928CE095F152829419b',
     }
   } else {
     return {

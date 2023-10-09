@@ -19,7 +19,7 @@ export function contract(env?: string) {
     }
   } else {
     return {
-      Guild: '',
+      Guild: '0x331d4647A3DBF8468Edb9dA7E143A78A4D102389',
     };
   }
 };

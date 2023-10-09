@@ -13,7 +13,7 @@ export function guild() {
   return Guild__factory.connect(contract().Guild, rpcProvider);
 }
 
-export const otsInfo = {
+export const guildInfo = {
   getInviterInfos: async (
     first: number,
     skip: number,

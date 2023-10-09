@@ -11,19 +11,32 @@ export function token(env?: string) {
   }
 };
 
+export function contract(env?: string) {
+  const environment = env || process.env.NODE_ENV;
+  if (environment === 'production') {
+    return {
+      Guild: '0x8AfAf3D506d78836E7aC798fd777852B35df8F0F',
+    }
+  } else {
+    return {
+      Guild: '',
+    };
+  }
+};
+
 export function network(env?: string) {
   const environment = env || process.env.NODE_ENV;
   if (environment === 'production') {
     return {
       chainId: '0x1',
-      chainName: 'ETH-Mainnet',
+      chainName: 'Ethereum-Mainnet',
       rpcUrls: ['https://web3.mytokenpocket.vip']
     };
   } else {
     return {
-      chainId: '0x5',
-      chainName: 'Goerli-Testnet',
-      rpcUrls: ['https://eth-goerli.g.alchemy.com/v2/dDCf0lfjfq1HeLlGAK3-u8r7hRhrJrEY']
+      chainId: '0xaa36a7',
+      chainName: 'Sepolia-Testnet',
+      rpcUrls: ['https://eth-sepolia.g.alchemy.com/v2/cb_rZmR500cF6qRkHuPCnK53kD7KXt1u']
     };
   }
 };

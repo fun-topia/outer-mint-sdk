@@ -2,5 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { OTS } from "./OTS";
+export type { OTUniverseActive } from "./OTUniverseActive";
 export * as factories from "./factories";
 export { OTS__factory } from "./factories/OTS__factory";
+export { OTUniverseActive__factory } from "./factories/OTUniverseActive__factory";

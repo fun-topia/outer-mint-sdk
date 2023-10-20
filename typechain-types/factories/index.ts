@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { OTS__factory } from "./OTS__factory";
+export { OTUniverseActive__factory } from "./OTUniverseActive__factory";

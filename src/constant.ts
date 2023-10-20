@@ -16,10 +16,12 @@ export function contract(env?: string) {
   if (environment === 'production') {
     return {
       Guild: '0xd2629D07591877b4a0bd8928CE095F152829419b',
+      OTUniverseActive: '',
     }
   } else {
     return {
       Guild: '0x331d4647A3DBF8468Edb9dA7E143A78A4D102389',
+      OTUniverseActive: '0x50ba3C836e66aA790f41cFd596F099b310FDaeC2',
     };
   }
 };
@@ -34,9 +36,12 @@ export function network(env?: string) {
     };
   } else {
     return {
-      chainId: '0xaa36a7',
-      chainName: 'Sepolia-Testnet',
-      rpcUrls: ['https://eth-sepolia.g.alchemy.com/v2/cb_rZmR500cF6qRkHuPCnK53kD7KXt1u']
+      chainId: '0x61',
+      chainName: 'BSC-Testnet',
+      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545/']
+      // chainId: '0xaa36a7',
+      // chainName: 'Sepolia-Testnet',
+      // rpcUrls: ['https://eth-sepolia.g.alchemy.com/v2/cb_rZmR500cF6qRkHuPCnK53kD7KXt1u']
     };
   }
 };

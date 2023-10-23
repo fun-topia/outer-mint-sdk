@@ -21,7 +21,7 @@ export function contract(env?: string) {
   } else {
     return {
       Guild: '0x331d4647A3DBF8468Edb9dA7E143A78A4D102389',
-      OTUniverseActive: '0x50ba3C836e66aA790f41cFd596F099b310FDaeC2',
+      OTUniverseActive: '0x34Cc55580b2573bEC0d11AFec2dA8Abb5538b46D',
     };
   }
 };

@@ -16,7 +16,7 @@ export function contract(env?: string) {
   if (environment === 'production') {
     return {
       Guild: '0xd2629D07591877b4a0bd8928CE095F152829419b',
-      OTUniverseActive: '',
+      OTUniverseActive: '0xF9549764396247a447CA903D6787f1aF3De5B497',
     }
   } else {
     return {
